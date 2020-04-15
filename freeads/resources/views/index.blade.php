@@ -7,5 +7,13 @@
 </head>
 <body>
     <h1>Free_Ads</h1>
+    <ul>
+        <li>
+            <p><a href="/register">Register</a></p>
+        </li>
+        <li>
+            <p><a href="/login">Login</a></p>
+        </li>
+    </ul>
 </body>
 </html>
