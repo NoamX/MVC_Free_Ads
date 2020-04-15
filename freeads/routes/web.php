@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', 'IndexController@showIndex');
 Auth::routes(['verify' => true]);
-
-// Route::get('/test', function () {
-
-// })->middleware('verified');
-
+Route::get('/profile', 'UserController@showProfile')->name('profile');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile/edit', 'UserController@editProfile')->name('edit');
+Route::post('/profile/edit', 'UserController@editProfile')->name('edit');
