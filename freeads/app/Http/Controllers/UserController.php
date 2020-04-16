@@ -15,7 +15,7 @@ class UserController extends Controller
 
     public function showProfile()
     {
-        $test = $this->read();
+        $this->read();
         return view('profile');
     }
 
