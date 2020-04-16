@@ -14,11 +14,14 @@ class UserController extends Controller
 
     public function showProfile()
     {
+        $test = $this->read();
         return view('profile');
     }
 
     public function editProfile()
     {
+        // var_dump($_POST);
+        $this->udpate();
         return view('edit_profile');
     }
 
@@ -35,10 +38,31 @@ class UserController extends Controller
 
     public function udpate()
     {
-        $user = auth()->user();
-        $update = DB::table('users')
-            ->where('id', $user->id)
-            ->update(['name' => 'Noam']);
+        // passer les donner de $post
+        if (isset($_POST['name'])) {
+            foreach ($_POST as $key => $value) {
+                if (!empty($_POST[$key])) {
+                    $arr[$key] = $value;
+                }
+            };
+            array_shift($arr);
+            if (!empty($_POST['password']) && !empty($_POST['password_confirm'])) {
+                if ($_POST['password'] == $_POST['password_confirm']) {
+                    array_pop($arr);
+                    $user = auth()->user();
+                    $update = DB::table('users')
+                        ->where('id', $user->id)
+                        ->update($arr);
+                } else {
+                    echo '<div class="alert alert-danger">Password are not same</div>';
+                }
+            } else {
+                $user = auth()->user();
+                $update = DB::table('users')
+                    ->where('id', $user->id)
+                    ->update($arr);
+            }
+        }
     }
 
     public function delete()
