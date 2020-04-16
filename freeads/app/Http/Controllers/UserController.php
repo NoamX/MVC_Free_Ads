@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,7 +21,6 @@ class UserController extends Controller
 
     public function editProfile()
     {
-        // var_dump($_POST);
         $this->udpate();
         return view('edit_profile');
     }
@@ -42,7 +42,12 @@ class UserController extends Controller
         if (isset($_POST['name'])) {
             foreach ($_POST as $key => $value) {
                 if (!empty($_POST[$key])) {
-                    $arr[$key] = $value;
+                    if ($key == 'password') {
+                        $arr[$key] = Hash::make($value);
+                    } else {
+                        $arr[$key] = $value;
+                    }
+                    $arr['updated_at'] = NOW();
                 }
             };
             array_shift($arr);
