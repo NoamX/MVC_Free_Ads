@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -13,66 +12,99 @@ class UserController extends Controller
         $this->middleware('verified');
     }
 
-    public function showProfile()
-    {
-        $this->read();
-        return view('profile');
-    }
-
-    public function editProfile()
-    {
-        $this->udpate();
-        return view('edit_profile');
-    }
-
-    public function create()
-    {
-        // c'est dans migration frr
-    }
-
-    public function read()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
         $user = auth()->user();
-        return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email];
+        return view('user.profile', compact('user'));
     }
 
-    public function udpate()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        // passer les donner de $post
-        if (isset($_POST['name'])) {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // $user = User::find($id);
+        // return view('user.profile', compact($user));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        if (isset($_POST['submit'])) {
             foreach ($_POST as $key => $value) {
-                if (!empty($_POST[$key])) {
+                if (!empty($value)) {
                     if ($key == 'password') {
                         $arr[$key] = Hash::make($value);
                     } else {
                         $arr[$key] = $value;
                     }
-                    $arr['updated_at'] = NOW();
                 }
-            };
-            array_shift($arr);
-            if (!empty($_POST['password']) && !empty($_POST['password_confirm'])) {
-                if ($_POST['password'] == $_POST['password_confirm']) {
-                    array_pop($arr);
-                    $user = auth()->user();
-                    $update = DB::table('users')
-                        ->where('id', $user->id)
-                        ->update($arr);
-                } else {
-                    echo '<div class="alert alert-danger">Password are not same</div>';
-                }
-            } else {
-                $user = auth()->user();
-                $update = DB::table('users')
-                    ->where('id', $user->id)
-                    ->update($arr);
             }
+            array_shift($arr);
+            echo '<pre>';
+            print_r($arr);
+            echo '</pre>';
+            $user = auth()->user();
+            $input = $request->only($arr);
+            $user->update($request->all($input));
         }
+        return view('user.edit_profile');
     }
 
-    public function delete()
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $user = auth()->user();
-        DB::table('users')->where('id', $user->id)->delete();
+        //
     }
 }

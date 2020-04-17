@@ -16,9 +16,14 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', 'IndexController@showIndex');
 Auth::routes(['verify' => true]);
-Route::get('/profile', 'UserController@showProfile')->name('profile');
+Route::get('/', 'IndexController@showIndex');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile/edit', 'UserController@editProfile')->name('edit');
-Route::post('/profile/edit', 'UserController@editProfile')->name('edit');
+
+Route::get('/profile', 'UserController@index')->name('profile');
+Route::get('/profile/edit', 'UserController@update')->name('edit');
+Route::post('/profile/edit', 'UserController@update')->name('edit');
+
+Route::get('/annonce', 'AnnonceController@showIndex')->name('annonce');
+// Route::get('/annonce/create', 'Annoncecontroller@create')->name('create');
+// Route::post('/annonce/create', 'AnnonceController@create')->name('create');
