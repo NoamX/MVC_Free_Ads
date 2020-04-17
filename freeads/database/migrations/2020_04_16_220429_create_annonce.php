@@ -13,12 +13,13 @@ class CreateAnnonce extends Migration
      */
     public function up()
     {
-        Schema::create('annonce', function (Blueprint $table) {
+        Schema::create('annonces', function (Blueprint $table) {
             $table->id();
+            $table->integer('author_id');
             $table->string('title');
             $table->integer('price');
-            $table->string('description');
-            $table->timestamp('created_at');
+            $table->longText('description');
+            $table->timestamps();
             // $table->img('image');
         });
     }
@@ -30,6 +31,6 @@ class CreateAnnonce extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annonce');
+        Schema::dropIfExists('annonces');
     }
 }

@@ -1,27 +1,18 @@
 @extends('layouts.app')
 @section('content')
-<div style="margin: 0 75px">
-    <div class="card">
-        <div class="card-header">
-            <a href="{{ route('edit') }}">Edit profile</a>
-        </div>
+<div class="card" style="margin: 0 75px">
+    <div class="card-header">
+        <a href="{{ route('edit') }}"><button class="btn btn-primary">Edit profile</button></a>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <strong>Nom :</strong>
-            <hr>
-            {{ $user->name }}
-        </li>
-        <li class="list-group-item">
-            <strong>Email :</strong>
-            <hr>
-            {{ $user->email }}
-        </li>
-        <li class="list-group-item">
-            <strong>Créer le :</strong>
-            <hr>
-            {{ $user->created_at }}
-        </li>
-    </ul>
+    <div class="card-body">
+        <h4 class="card-title">Name :</h4>
+        <p class="card-text">{{ $user->name }}</p>
+        <hr>
+        <h4 class="card-title">Email : :</h4>
+        <p class="card-text">{{ $user->email }}</p>
+        <hr>
+        <h4 class="card-title">Created on :</h4>
+        <p class="card-text">{{ $user->created_at }}</p>
+    </div>
 </div>
 @stop

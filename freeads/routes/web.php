@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\FuncCall;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,12 @@ Route::get('/profile', 'UserController@index')->name('profile');
 Route::get('/profile/edit', 'UserController@update')->name('edit');
 Route::post('/profile/edit', 'UserController@update')->name('edit');
 
-Route::get('/annonce', 'AnnonceController@showIndex')->name('annonce');
-// Route::get('/annonce/create', 'Annoncecontroller@create')->name('create');
-// Route::post('/annonce/create', 'AnnonceController@create')->name('create');
+Route::get('/ad', 'AnnonceController@index')->name('ad');
+Route::get('/annonce/create', 'Annoncecontroller@create')->name('create');
+Route::post('/annonce/create', 'AnnonceController@create')->name('create');
+
+Route::post('profile/delete/{id}', 'UserController@destroy');
+
+Route::get('/profile/delete', function(){
+    return view('user.delete');
+});

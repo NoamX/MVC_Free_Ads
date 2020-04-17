@@ -62,12 +62,12 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <a class="dropdown-item" href="{{ route('annonce') }}">
-                                    Annonce
+                                <a class="dropdown-item" href="{{ route('ad') }}">
+                                    Ad
                                 </a>
 
-                                <a class="dropdown-item" href="{{ route('profile') }}">
-                                    Profile
+                                <a class="dropdown-item" href="/profile/edit">
+                                    Edit Profile
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

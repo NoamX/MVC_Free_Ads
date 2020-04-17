@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -52,8 +53,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // $user = User::find($id);
-        // return view('user.profile', compact($user));
+        // 
     }
 
     /**
@@ -64,7 +64,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = auth()->user();
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -74,27 +75,41 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update()
     {
+        $errorMessage = '';
         if (isset($_POST['submit'])) {
             foreach ($_POST as $key => $value) {
-                if (!empty($value)) {
-                    if ($key == 'password') {
-                        $arr[$key] = Hash::make($value);
-                    } else {
-                        $arr[$key] = $value;
+                if ($key != '_token' && $value) {
+                    $post[$key] = $value;
+                    if (!empty($_POST['password']) && !empty($_POST['password_confirm'])) {
+                        if ($_POST['password'] == $_POST['password_confirm']) {
+                            $post[$key] = Hash::make($value);
+                        } else {
+                            $errorMessage = '<div class="alert alert-danger">Passwords does not match !</div>';
+                            break;
+                        }
                     }
                 }
             }
-            array_shift($arr);
-            echo '<pre>';
-            print_r($arr);
-            echo '</pre>';
-            $user = auth()->user();
-            $input = $request->only($arr);
-            $user->update($request->all($input));
+            if (isset($post)) {
+                if (!empty($password = $_POST['current_password'])) {
+                    if (Hash::check($password, auth()->user()->password) != false) {
+                        unset($post['current_password']);
+                        unset($post['password_confirm']);
+                        $errorMessage = '<div class="alert alert-success">Updated !</div>';
+                        DB::table('users')
+                            ->where('id', auth()->user()->id)
+                            ->update($post);
+                    } else {
+                        $errorMessage .= '<div class="alert alert-danger">Password seems incorrect !</div>';
+                    }
+                } else {
+                    $errorMessage .= '<div class="alert alert-danger">Please enter your password to update your account !</div>';
+                }
+            }
         }
-        return view('user.edit_profile');
+        return view('user.edit_profile', ['error' => $errorMessage]);
     }
 
     /**
@@ -105,6 +120,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = auth()->user();
+        $user->delete();
+        return redirect('register');
     }
 }
