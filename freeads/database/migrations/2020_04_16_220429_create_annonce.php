@@ -17,7 +17,8 @@ class CreateAnnonce extends Migration
             $table->id();
             $table->integer('author_id');
             $table->string('title');
-            $table->integer('price');
+            $table->binary('image')->nullable();
+            $table->float('price');
             $table->longText('description');
             $table->timestamps();
             // $table->img('image');

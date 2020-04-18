@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
         return view('user.profile', compact('user'));
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
         return view('user.edit', compact('user'));
     }
 
@@ -75,38 +75,36 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update()
+
+    public function update(Request $request)
     {
         $errorMessage = '';
-        if (isset($_POST['submit'])) {
-            foreach ($_POST as $key => $value) {
-                if ($key != '_token' && $value) {
-                    $post[$key] = $value;
-                    if (!empty($_POST['password']) && !empty($_POST['password_confirm'])) {
-                        if ($_POST['password'] == $_POST['password_confirm']) {
-                            $post[$key] = Hash::make($value);
-                        } else {
-                            $errorMessage = '<div class="alert alert-danger">Passwords does not match !</div>';
-                            break;
+        $user = User::find(auth()->user()->id);
+        if (isset($request['submit'])) {
+            if (!empty($request['current_password'])) {
+                if (Hash::check($request['current_password'], $user->password)) {
+                    foreach ($request->request as $key => $value) {
+                        if (isset($value) && $key != '_token') {
+                            $req[$key] = $value;
+                            if (!empty($req['password']) && !empty($req['password_confirm'])) {
+                                if ($req['password'] == $req['password_confirm']) {
+                                    $req['password'] = Hash::make($value);
+                                    unset($req['password_confirm']);
+                                    unset($req['current_password']);
+                                } else {
+                                    $errorMessage = '<div class="alert alert-danger">Passwords does not match !</div>';
+                                    break;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            if (isset($post)) {
-                if (!empty($password = $_POST['current_password'])) {
-                    if (Hash::check($password, auth()->user()->password) != false) {
-                        unset($post['current_password']);
-                        unset($post['password_confirm']);
-                        $errorMessage = '<div class="alert alert-success">Updated !</div>';
-                        DB::table('users')
-                            ->where('id', auth()->user()->id)
-                            ->update($post);
-                    } else {
-                        $errorMessage .= '<div class="alert alert-danger">Password seems incorrect !</div>';
-                    }
+                    $user->update($req);
+                    return redirect()->route('profile');
                 } else {
-                    $errorMessage .= '<div class="alert alert-danger">Please enter your password to update your account !</div>';
+                    $errorMessage = '<div class="alert alert-danger">Password seems incorrect !</div>';
                 }
+            } else {
+                $errorMessage = '<div class="alert alert-danger">Please enter your password to update your account !</div>';
             }
         }
         return view('user.edit_profile', ['error' => $errorMessage]);
@@ -120,7 +118,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
         $user->delete();
         return redirect('register');
     }
