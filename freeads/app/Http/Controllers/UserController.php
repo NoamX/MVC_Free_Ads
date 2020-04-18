@@ -28,7 +28,7 @@ class UserController extends Controller
             ->select('*', 'annonces.id as aId', 'annonces.updated_at as date')
             ->where('users.id', '=', Auth::user()->id)
             ->orderBy('annonces.updated_at', 'desc')
-            ->get();
+            ->paginate(10);
         return view('user.profile', compact('annonces'));
     }
 
@@ -103,6 +103,14 @@ class UserController extends Controller
                                     $errorMessage = '<div class="alert alert-danger">Passwords does not match !</div>';
                                     break;
                                 }
+                            }
+                        }
+                    }
+                    if (isset($req['email'])) {
+                        foreach (User::all() as $value) {
+                            if ($req['email'] == $value->email) {
+                                $errorMessage = '<div class="alert alert-danger">Email already used !</div>';
+                                return view('user.edit_profile', ['error' => $errorMessage]);   
                             }
                         }
                     }

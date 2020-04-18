@@ -28,6 +28,9 @@
             </div>
         </div>
         @endforeach
+        <div>
+            <div style="width: 250px; margin: 0 auto;">{{ $annonces->links() }}</div>
+        </div>
     </div>
 </div>
 @stop

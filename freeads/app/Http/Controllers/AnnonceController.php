@@ -21,7 +21,7 @@ class AnnonceController extends Controller
             ->join('users', 'users.id', '=', 'annonces.user_id')
             ->select('*', 'annonces.id as aId', 'annonces.updated_at as date')
             ->orderBy('annonces.updated_at', 'desc')
-            ->get();
+            ->paginate(10);
         return view('annonce.index', compact('annonces'));
     }
 

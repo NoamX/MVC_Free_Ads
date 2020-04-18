@@ -14,10 +14,8 @@
         <h4 class="card-title">Created on :</h4>
         <p class="card-text">{{ Auth::user()->created_at }}</p>
     </div>
-    <hr>
 </div>
-<hr>
-<div class="card" style="margin: 0 75px">
+<div class="card" style="margin: 25px 75px">
     <div class="card-header">
         <h3>Your ad(s)</h3>
     </div>
@@ -39,10 +37,11 @@
                 <hr>
                 <p class="card-text">{{ $annonce->price }} €</p>
                 <hr>
-                <p class="card-text"><?= html_entity_decode($annonce->description) ?></p>
+                <p class="card-text"><?= $annonce->description ?></p>
             </div>
         </div>
         @endforeach
     </div>
+    <div style="width: 250px; margin: 0 auto;">{{ $annonces->links() }}</div>
 </div>
 @stop
