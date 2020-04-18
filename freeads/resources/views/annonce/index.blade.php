@@ -21,6 +21,9 @@
             </div>
             <div class="card-body">
                 <h4 class="card-title">{{ $annonce->title }}</h4>
+                @if(!empty($annonce->image))
+                <img src="{{ $annonce->image }}" alt="image" class="img-thumbnail" width="25%">
+                @endif
                 <hr>
                 <p class="card-text">{{ $annonce->price }} €</p>
                 <hr>

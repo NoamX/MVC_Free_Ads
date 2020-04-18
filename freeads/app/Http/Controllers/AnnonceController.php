@@ -49,12 +49,21 @@ class AnnonceController extends Controller
     public function store(Request $request)
     {
         $users = User::find(Auth::user()->id);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $image = $file->store('assets');
+            $file->move('assets', $file->store('assets'));
+        } else {
+            $image = '';
+        }
         Annonce::create([
             'title' => $request['title'],
             'price' => $request['price'],
+            'image' => $image,
             'description' => nl2br($request['desc']),
             'user_id' => $users->id,
         ]);
+
         return redirect()->route('annonce.index');
     }
 
