@@ -62,8 +62,8 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <a class="dropdown-item" href="{{ route('ad') }}">
-                                    Ad
+                                <a class="dropdown-item" href="{{ route('annonce.index') }}">
+                                    Ads
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('profile') }}">

@@ -24,13 +24,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'UserController@index')->name('profile');
 Route::get('/profile/edit', 'UserController@update')->name('edit');
 Route::post('/profile/edit', 'UserController@update')->name('edit');
-
-Route::get('/ad', 'AnnonceController@index')->name('ad');
-Route::get('/ad/create', 'Annoncecontroller@create')->name('create');
-Route::post('/ad/create', 'AnnonceController@create')->name('create');
-
 Route::post('profile/delete/{id}', 'UserController@destroy');
-
-Route::get('/profile/delete', function(){
+Route::get('/profile/delete', function () {
     return view('user.delete');
 });
+
+Route::resource('annonce', 'AnnonceController');
+Route::get('/annonce/destroy/{id}', 'AnnonceController@destroy');
+

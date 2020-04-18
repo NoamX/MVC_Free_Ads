@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnonce extends Migration
+class Annonces extends Migration
 {
     /**
      * Run the migrations.
@@ -15,13 +15,14 @@ class CreateAnnonce extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
-            $table->integer('author_id');
-            $table->string('title');
             $table->binary('image')->nullable();
+            $table->string('title');
             $table->float('price');
             $table->longText('description');
             $table->timestamps();
-            // $table->img('image');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelelte('cascade');
         });
     }
 

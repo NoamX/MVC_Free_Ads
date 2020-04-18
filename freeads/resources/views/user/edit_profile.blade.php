@@ -18,7 +18,7 @@
             <button type="sumbit" class="btn btn-primary" name="submit">Confirm</button>
         </form>
         <hr>
-        <a href="/profile/delete"><button class="btn btn-danger" name="delete">Supprimer le compte</button></a>
+        <a href="/profile/delete"><button class="btn btn-danger" name="delete">Delete account</button></a>
     </div>
 </div>
 @stop
