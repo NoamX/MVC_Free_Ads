@@ -105,7 +105,7 @@ class AnnonceController extends Controller
      */
     public function destroy($id)
     {
-        Annonce::find($id)->delete()->onDelete('cascade');
+        Annonce::find($id)->delete();
         return redirect()->route('annonce.index');
     }
 }
