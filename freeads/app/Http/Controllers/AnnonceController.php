@@ -19,8 +19,8 @@ class AnnonceController extends Controller
     {
         $annonces = DB::table('annonces')
             ->join('users', 'users.id', '=', 'annonces.user_id')
-            ->select('*', 'annonces.id as aId')
-            ->orderBy('annonces.created_at', 'desc')
+            ->select('*', 'annonces.id as aId', 'annonces.updated_at as date')
+            ->orderBy('annonces.updated_at', 'desc')
             ->get();
         return view('annonce.index', compact('annonces'));
     }
@@ -91,7 +91,7 @@ class AnnonceController extends Controller
         ]);
         return redirect()->route('annonce.index');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *

@@ -10,7 +10,7 @@
             <div class="card-header">
                 <div style="float: left">
                     <h4 class="card-title">{{ $annonce->name }}</h4>
-                    <em class="card-text">{{ $annonce->created_at }}</em>
+                    <em class="card-text">{{ $annonce->date }}</em>
                 </div>
                 @if($annonce->user_id == Auth::user()->id )
                 <div style="float: right">

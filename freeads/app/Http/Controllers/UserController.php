@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,8 +22,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::find(auth()->user()->id);
-        return view('user.profile', compact('user'));
+        // $id = User::find(auth()->user()->id);
+        $annonces = DB::table('users')
+            ->join('annonces', 'users.id', '=', 'annonces.user_id')
+            ->select('*', 'annonces.id as aId', 'annonces.updated_at as date')
+            ->where('users.id', '=', Auth::user()->id)
+            ->orderBy('annonces.updated_at', 'desc')
+            ->get();
+        return view('user.profile', compact('annonces'));
     }
 
     /**
