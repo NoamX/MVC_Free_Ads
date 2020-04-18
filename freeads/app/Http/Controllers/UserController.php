@@ -110,7 +110,7 @@ class UserController extends Controller
                         foreach (User::all() as $value) {
                             if ($req['email'] == $value->email) {
                                 $errorMessage = '<div class="alert alert-danger">Email already used !</div>';
-                                return view('user.edit_profile', ['error' => $errorMessage]);   
+                                return view('user.edit_profile', ['error' => $errorMessage]);
                             }
                         }
                     }
@@ -132,10 +132,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $user = User::find(auth()->user()->id);
-        $user->delete();
-        return redirect('register');
+        $errorMessage = '';
+        if (isset($request['password'])) {
+            if (Hash::check($request['password'], Auth::user()->password)) {
+                $user = User::find(auth()->user()->id);
+                $user->delete();
+                return redirect('register');
+            } else {
+                $errorMessage = '<div class="alert alert-danger">Password seems incorrect !</div>';
+                return view('user.delete', ['error' => $errorMessage]);
+            }
+        }
     }
 }

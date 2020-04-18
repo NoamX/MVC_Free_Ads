@@ -8,9 +8,13 @@
         <form action="/profile/delete/{{ auth()->user()->id }}" method="post">
             @csrf
             <div class="alert alert-danger">
-                Are you sure that you want to delete your account ?
+                Are you sure you want to delete your account permanently ?
+                <br>
+                Type your password to confirm your account deletion.
             </div>
             <hr>
+            <input class="form-control" type="password" name="password" placeholder="Password"><br>
+            <?= $error ?? '' ?>
             <button type="submit" class="btn btn-danger btn-large">Delete your account</button>
             <hr>
         </form>

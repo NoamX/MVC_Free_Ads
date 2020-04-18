@@ -14,7 +14,7 @@ class Annonces extends Migration
     public function up()
     {
         Schema::create('annonces', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->binary('image')->nullable();
             $table->string('title');
             $table->float('price');
@@ -22,7 +22,7 @@ class Annonces extends Migration
             $table->timestamps();
             $table->foreignId('user_id')
                 ->constrained()
-                ->onDelelte('cascade');
+                ->onDelete('cascade');
         });
     }
 

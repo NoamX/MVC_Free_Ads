@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class AnnonceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verified');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -100,7 +105,7 @@ class AnnonceController extends Controller
      */
     public function destroy($id)
     {
-        Annonce::find($id)->delete();
+        Annonce::find($id)->delete()->onDelete('cascade');
         return redirect()->route('annonce.index');
     }
 }
