@@ -8,7 +8,7 @@
         <h4 class="card-title">Name :</h4>
         <p class="card-text">{{ $user->name }}</p>
         <hr>
-        <h4 class="card-title">Email : :</h4>
+        <h4 class="card-title">Email :</h4>
         <p class="card-text">{{ $user->email }}</p>
         <hr>
         <h4 class="card-title">Created on :</h4>

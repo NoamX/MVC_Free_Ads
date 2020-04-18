@@ -2,7 +2,7 @@
 @section('content')
 <div class="card" style="margin: 0 75px">
     <div class="card-header">
-        <a href="/annonce/create"><button class="btn btn-primary">Create an ad</button></a>
+        <a href="/ad/create"><button class="btn btn-primary">Create an ad</button></a>
     </div>
     @foreach ($users as $user)
     <div class="card" style="margin: 25px">

@@ -2,6 +2,8 @@
 @section('content')
 <div class="card" style="margin: 0 75px">
     <div class="card-header">
+        <a href="/profile"><button class="btn btn-primary">Back</button></a>
+        <hr>
         <h3 class="cart-title">Edit Profile</h3>
     </div>
     <div class="card-body">

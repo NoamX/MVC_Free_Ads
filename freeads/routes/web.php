@@ -26,8 +26,8 @@ Route::get('/profile/edit', 'UserController@update')->name('edit');
 Route::post('/profile/edit', 'UserController@update')->name('edit');
 
 Route::get('/ad', 'AnnonceController@index')->name('ad');
-Route::get('/annonce/create', 'Annoncecontroller@create')->name('create');
-Route::post('/annonce/create', 'AnnonceController@create')->name('create');
+Route::get('/ad/create', 'Annoncecontroller@create')->name('create');
+Route::post('/ad/create', 'AnnonceController@create')->name('create');
 
 Route::post('profile/delete/{id}', 'UserController@destroy');
 
